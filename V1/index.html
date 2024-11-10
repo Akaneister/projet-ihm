@@ -9,16 +9,25 @@
 <body>
 
     <header>
-        <h1>Bienvenue sur ma page de base</h1>
+        <h1>ROBOT FACTORY</h1>
     </header>
 
     <main>
-        <p>Bonjour ! Ceci est une simple page web de démonstration.</p>
-        <button id="alertButton">Cliquez ici</button>
+        <h1>
+            <button onclick="Increment()">Cliquez ici</button>
+            <p>Robots: <span id="robots">0</span></p>
+        </h1>
     </main>
 
     <footer>
-        <p>&copy; 2024 - Mon Site Web</p>
+        <h3>
+            <button onclick="incrementBonusRobotArm()">
+                <p><span id="QBonusRobotArm">0</span></p>
+            </button>
+            <p><span id="bonusRobotArmCost">100</span></p>
+        </h3>
+
+        <button onclick="resetVariables()">Reset</button>
     </footer>
 
     <script src="script.js"></script>
