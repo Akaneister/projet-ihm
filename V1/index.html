@@ -13,19 +13,16 @@
     </header>
 
     <main>
-        <h1>
-            <button onclick="Increment()">Cliquez ici</button>
-            <p>Robots: <span id="robots">0</span></p>
-        </h1>
+        <button onclick="Increment()">Cliquez ici</button>
+        <p>Robots: <span id="robots">0</span></p>
     </main>
 
     <footer>
-        <h3>
-            <button onclick="incrementBonusRobotArm()">
-                <p><span id="QBonusRobotArm">0</span></p>
-            </button>
-            <p><span id="bonusRobotArmCost">100</span></p>
-        </h3>
+        <button onclick="incrementBonusRobotArm()">
+            Acheter un bras bonus <br>
+            <span>Quantité: <span id="QBonusRobotArm">0</span></span>
+        </button>
+        <p>Coût du bras bonus: <span id="bonusRobotArmCost">100</span></p>
 
         <button onclick="resetVariables()">Reset</button>
     </footer>
