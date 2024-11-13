@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page de base</title>
+    <title>Robot Factory</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,18 +13,24 @@
     </header>
 
     <main>
-        <button onclick="Increment()">Cliquez ici</button>
-        <p>Robots: <span id="robots">0</span></p>
+        <div class="action">
+            <button onclick="Increment()">Construire un Robot</button>
+            <p>Robots: <span id="robots">0</span></p>
+        </div>
     </main>
 
     <footer>
-        <button onclick="incrementBonusRobotArm()">
-            Acheter un bras bonus <br>
-            <span>Quantité: <span id="QBonusRobotArm">0</span></span>
-        </button>
-        <p>Coût du bras bonus: <span id="bonusRobotArmCost">100</span></p>
+        <div class="bonus-section">
+            <button onclick="incrementBonusRobotArm()">Acheter un bras bonus</button>
+            <p>Quantité: <span id="QBonusRobotArm">0</span> | Coût: <span id="bonusRobotArmCost">100</span></p>
+        </div>
 
-        <button onclick="resetVariables()">Reset</button>
+        <div class="bonus-section">
+            <button onclick="increaseClick()">Boost du click</button>
+            <p>Quantité: <span id="clickIncrease">1</span> | Coût: <span id="clickIncreaseCost">5000</span></p>
+        </div>
+
+        <button class="reset" onclick="resetVariables()">Réinitialiser</button>
     </footer>
 
     <script src="script.js"></script>

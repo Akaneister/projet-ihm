@@ -1,0 +1,10 @@
+---------------------------------------------- DESIGN ----------------------------------------------
+- Effet d'étincelle quand on clique sur construire.
+- Faire des images IA pour les bonus ou des étapes.
+- Faire des succès.
+
+---------------------------------------------- SOUND ----------------------------------------------
+- Son de metal / marteau quand on clique.
+
+---------------------------------------------- BUGS ----------------------------------------------
+- supprimer le bug de build avec le bouton entrée.

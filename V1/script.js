@@ -3,14 +3,19 @@ let robots = parseInt(localStorage.getItem('robots')) || 99;
 let bonusRobotArmCost = parseInt(localStorage.getItem('bonusRobotArmCost')) || 100;
 let QBonusRobotArm = parseInt(localStorage.getItem('QBonusRobotArm')) || 0;
 
+let clickIncreaseCost = parseInt(localStorage.getItem('clickIncreaseCost')) || 5000;
+let clickIncrease = parseInt(localStorage.getItem('clickIncrease')) || 1;
+
 // Display the initial value
 document.getElementById('robots').innerHTML = robots;
 document.getElementById('QBonusRobotArm').innerHTML = QBonusRobotArm;
 document.getElementById('bonusRobotArmCost').innerHTML = bonusRobotArmCost;
+document.getElementById('clickIncreaseCost').innerHTML = clickIncreaseCost;
+document.getElementById('clickIncrease').innerHTML = clickIncrease;
 
 function Increment() {
     // Increment the value of robots
-    robots += 1;
+    robots += clickIncrease;
     
     // Update the displayed count
     document.getElementById('robots').innerHTML = robots;
@@ -41,21 +46,45 @@ function incrementBonusRobotArm() {
     }
 }
 
+function increaseClick() {
+    if (robots >= clickIncreaseCost) {
+        robots -= clickIncreaseCost;
+
+        localStorage.setItem('robots', robots);
+
+        clickIncrease *= 2;
+        localStorage.setItem('clickIncrease', clickIncrease);
+
+        clickIncreaseCost += clickIncreaseCost + clickIncreaseCost * 2;
+        localStorage.setItem('clickIncreaseCost', clickIncreaseCost);
+
+        document.getElementById('robots').innerHTML = robots;
+        document.getElementById('clickIncreaseCost').innerHTML = clickIncreaseCost;
+        document.getElementById('clickIncrease').innerHTML = clickIncrease;
+    }
+}
+
 function resetVariables() {
     // Reset variables to their initial values
-    robots = 0;
+    robots = 4999;
     bonusRobotArmCost = 100;
     QBonusRobotArm = 0;
+    clickIncreaseCost = 5000;
+    clickIncrease = 1;
 
     // Save reset values to localStorage
     localStorage.setItem('robots', robots);
     localStorage.setItem('bonusRobotArmCost', bonusRobotArmCost);
     localStorage.setItem('QBonusRobotArm', QBonusRobotArm);
+    localStorage.setItem('clickIncreaseCost', clickIncreaseCost);
+    localStorage.setItem('clickIncrease', clickIncrease);
 
     // Update HTML elements to reflect the reset values
     document.getElementById('robots').innerHTML = robots;
     document.getElementById('bonusRobotArmCost').innerHTML = bonusRobotArmCost;
     document.getElementById('QBonusRobotArm').innerHTML = QBonusRobotArm;
+    document.getElementById('clickIncreaseCost').innerHTML = clickIncreaseCost;
+    document.getElementById('clickIncrease').innerHTML = clickIncrease;
 }
 
 function activateBonus() {
@@ -69,7 +98,7 @@ function activateBonus() {
 }
 
 function bonusActivation() {
-    setInterval(activateBonus, 1000)
+    setInterval(activateBonus, 500)
 }
 
 bonusActivation();
