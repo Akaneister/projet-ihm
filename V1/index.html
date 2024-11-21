@@ -20,21 +20,22 @@
             <p>Robots: <span id="robots">0</span></p>
             <div id="sparkles"></div>
         </div>
+
+        <!-- Conteneur pour les sections de bonus -->
+        <div class="improvements">
+            <div class="bonus-section">
+                <button onclick="incrementBonusRobotArm()">Acheter un bras bonus</button>
+                <p>Quantité: <span id="QBonusRobotArm">0</span> | Coût: <span id="bonusRobotArmCost">100</span></p>
+            </div>
+
+            <div class="bonus-section">
+                <button onclick="increaseClick()">Boost du click</button>
+                <p>Quantité: <span id="clickIncrease">1</span> | Coût: <span id="clickIncreaseCost">5000</span></p>
+            </div>
+
+            <button class="reset" onclick="resetVariables()">Réinitialiser</button>
+        </div>
     </main>
-
-    <footer>
-        <div class="bonus-section">
-            <button onclick="incrementBonusRobotArm()">Acheter un bras bonus</button>
-            <p>Quantité: <span id="QBonusRobotArm">0</span> | Coût: <span id="bonusRobotArmCost">100</span></p>
-        </div>
-
-        <div class="bonus-section">
-            <button onclick="increaseClick()">Boost du click</button>
-            <p>Quantité: <span id="clickIncrease">1</span> | Coût: <span id="clickIncreaseCost">5000</span></p>
-        </div>
-
-        <button class="reset" onclick="resetVariables()">Réinitialiser</button>
-    </footer>
 
     <script src="script.js"></script>
 </body>

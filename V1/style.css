@@ -14,6 +14,8 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 /* Header */
@@ -30,57 +32,33 @@ header h1 {
     font-weight: bold;
 }
 
-/* Main Content */
+/* Conteneur principal */
 main {
-    flex: 1;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 20px;
-    text-align: center;
-}
-
-.action {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-}
-
-.action button {
-    font-size: 70px; /* Augmente encore la taille de l'emoji */
-    background: none; /* Enlève le fond du bouton */
-    border: none; /* Enlève la bordure du bouton */
-    padding: 0; /* Enlève le padding */
-    cursor: pointer; /* Change le curseur pour indiquer que c'est un bouton */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: none; /* Enlève la transition pour l'effet de survol */
-    outline: none; /* Enlève le contour de focus */
-}
-
-.action button:hover,
-.action button:focus {
-    background: none; /* Assure qu'il n'y a pas de changement de fond au survol */
-    outline: none; /* Enlève le contour de focus */
-}
-
-.action p {
-    margin-top: 15px;
-    font-size: 1.5rem;
-}
-
-/* Footer */
-footer {
+    position: relative;
     width: 100%;
+    height: calc(100vh - 60px); /* Ajuste la hauteur en fonction de la hauteur de l'en-tête */
+    padding-right: 200px; /* Espace pour la barre latérale */
+}
+
+/* Conteneur pour les sections d'amélioration */
+.improvements {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 200px;
+    height: 100%;
     background-color: #2c2c2c;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 15px;
+    overflow-y: auto;
 }
 
+/* Styles pour les sections d'amélioration */
 .bonus-section {
     display: flex;
     flex-direction: column;
@@ -173,4 +151,46 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Styles pour le bouton d'action */
+.action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%; /* Prend toute la hauteur disponible */
+}
+
+.action button {
+    font-size: 150px; /* Augmente encore la taille de l'emoji */
+    background: none; /* Enlève le fond du bouton */
+    border: none; /* Enlève la bordure du bouton */
+    padding: 0; /* Enlève le padding */
+    cursor: pointer; /* Change le curseur pour indiquer que c'est un bouton */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: none; /* Enlève la transition pour l'effet de survol */
+    outline: none; /* Enlève le contour de focus */
+}
+
+.action button:active {
+    animation: rotate 0.5s linear;
+}
+
+.action button:hover,
+.action button:focus {
+    background: none; /* Assure qu'il n'y a pas de changement de fond au survol */
+    outline: none; /* Enlève le contour de focus */
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
