@@ -86,6 +86,13 @@ function resetVariables() {
     document.getElementById('clickIncreaseCost').innerHTML = clickIncreaseCost;
     document.getElementById('clickIncrease').innerHTML = clickIncrease;
 }
+function preventKeyPress(event) {
+    // Bloque les événements clavier sauf le clic
+    if (event.key === "Enter" || event.key === " " || event.code === "Space") {
+        event.preventDefault();
+    }
+}
+
 
 function activateBonus() {
     if (QBonusRobotArm > 0) {
