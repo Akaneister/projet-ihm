@@ -47,20 +47,22 @@ main {
 }
 
 .action button {
-    background-color: #444;
-    color: #f5a623;
-    border: none;
-    padding: 15px 30px;
-    margin-top: 10px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    font-size: 70px; /* Augmente encore la taille de l'emoji */
+    background: none; /* Enlève le fond du bouton */
+    border: none; /* Enlève la bordure du bouton */
+    padding: 0; /* Enlève le padding */
+    cursor: pointer; /* Change le curseur pour indiquer que c'est un bouton */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: none; /* Enlève la transition pour l'effet de survol */
+    outline: none; /* Enlève le contour de focus */
 }
 
-.action button:hover {
-    background-color: #f5a623;
-    color: #1a1a1a;
+.action button:hover,
+.action button:focus {
+    background: none; /* Assure qu'il n'y a pas de changement de fond au survol */
+    outline: none; /* Enlève le contour de focus */
 }
 
 .action p {
@@ -98,7 +100,7 @@ footer {
 }
 
 .bonus-section button:hover {
-    background-color: #81c784;
+    background-color: #555;
     color: #1a1a1a;
 }
 
@@ -126,4 +128,49 @@ footer {
 /* Button focus states for accessibility */
 button:focus {
     outline: 2px solid #f5a623;
+}
+#sparkles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Prend toute la largeur de la fenêtre */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    pointer-events: none;
+    z-index: 10;
+}
+
+.sparkle {
+    position: absolute;
+    font-size: 20px; /* Taille de l'emoji */
+    color: #f5a623; /* Couleur de l'emoji */
+    text-align: center;
+    line-height: 1;
+    animation: sparkle-animation 1s ease-out forwards;
+    opacity: 0.8;
+    display: inline-block;
+    border-radius: 50%; /* Forme ronde */
+    padding: 2px; /* Espace autour de l'emoji */
+}
+
+/* Animation des étincelles */
+@keyframes sparkle-animation {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(var(--x) * 50px), calc(var(--y) * 50px)) scale(0.5);
+        opacity: 0;
+    }
+}
+
+button {
+    font-size: 50px; /* Augmente la taille de l'emoji */
+    background: none; /* Enlève le fond du bouton */
+    border: none; /* Enlève la bordure du bouton */
+    padding: 0; /* Enlève le padding */
+    cursor: pointer; /* Change le curseur pour indiquer que c'est un bouton */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

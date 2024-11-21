@@ -14,8 +14,11 @@
 
     <main>
         <div class="action">
-            <button type="button" onclick="Increment()" onkeydown="preventKeyPress(event)">Construire un Robot</button>
+            <button type="button" onclick="IncrementWithSparkles(event)" onkeydown="preventKeyPress(event)">
+                ⚙️
+            </button>
             <p>Robots: <span id="robots">0</span></p>
+            <div id="sparkles"></div>
         </div>
     </main>
 
@@ -29,8 +32,6 @@
             <button onclick="increaseClick()">Boost du click</button>
             <p>Quantité: <span id="clickIncrease">1</span> | Coût: <span id="clickIncreaseCost">5000</span></p>
         </div>
-
-
 
         <button class="reset" onclick="resetVariables()">Réinitialiser</button>
     </footer>

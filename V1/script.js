@@ -108,4 +108,61 @@ function bonusActivation() {
     setInterval(activateBonus, 500)
 }
 
+
+
 bonusActivation();
+
+
+function IncrementWithSparkles(event) {
+    console.log("Clic reçu !"); // Ajouter un log ici pour vérifier l'appel de la fonction
+    // Incrémentation classique
+    const robotsElement = document.getElementById("robots");
+    let robotsCount = parseInt(robotsElement.textContent, 10);
+    robotsElement.textContent = robotsCount + 1;
+
+    // Génération des étincelles à la position du clic
+    createSparkles(event);
+}
+
+function createSparkles(event) {
+    const sparklesContainer = document.getElementById("sparkles");
+    const sparklesCount = 20; // Nombre d'étincelles
+
+    // Récupérer la position du clic par rapport à la fenêtre (viewport)
+    const offsetX = event.clientX; // Position X du clic dans la fenêtre
+    const offsetY = event.clientY; // Position Y du clic dans la fenêtre
+
+    console.log(`Clic à (${offsetX}, ${offsetY})`);
+
+    // Créer les étincelles
+    for (let i = 0; i < sparklesCount; i++) {
+        const sparkle = document.createElement("div");
+        sparkle.classList.add("sparkle");
+
+        // Ajouter l'emoji ✨ à la particule
+        sparkle.textContent = "✨";
+
+        // Générer des directions aléatoires pour l'animation
+        const x = (Math.random() * 8 - 4); // Valeur entre -4 et 4
+        const y = (Math.random() * 8 - 4); // Valeur entre -4 et 4
+
+        // Appliquer les propriétés CSS personnalisées
+        sparkle.style.setProperty("--x", x.toString());
+        sparkle.style.setProperty("--y", y.toString());
+
+        // Positionner l'étincelle à la position du clic dans la fenêtre
+        sparkle.style.position = 'absolute';
+        sparkle.style.left = `${offsetX}px`;
+        sparkle.style.top = `${offsetY}px`;
+
+        console.log(`Étincelle créée à (${offsetX}, ${offsetY})`);
+
+        // Ajouter l'étincelle au conteneur
+        sparklesContainer.appendChild(sparkle);
+
+        // Supprimer l'étincelle après son animation
+        setTimeout(() => {
+            sparkle.remove();
+        }, 1000);
+    }
+}
