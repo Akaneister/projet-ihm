@@ -13,30 +13,46 @@
     </header>
 
     <main>
+        <!-- Bouton principale -->
         <div class="action">
-            <button type="button" onclick="IncrementWithSparkles(event)" onkeydown="preventKeyPress(event)">
-                ⚙️
-            </button>
-            <p>Robots: <span id="robots">0</span></p>
+            <p><b>ROBOTS : <span id="robots">0</span></b></p>
             <div id="sparkles"></div>
+            <button type="button" onclick="IncrementWithSparkles(event)" onkeydown="preventKeyPress(event)">⚙️</button>
         </div>
 
         <!-- Conteneur pour les sections de bonus -->
         <div class="improvements">
             <div class="bonus-section">
-                <button onclick="incrementBonusRobotArm()">Acheter un bras bonus</button>
+                <button onclick="incrementBonusRobotArm()">
+                    <img class="bonusEmoji" src="./images/BrasMecaniqueBonus.png">
+                </button>
                 <p>Quantité: <span id="QBonusRobotArm">0</span> | Coût: <span id="bonusRobotArmCost">100</span></p>
             </div>
 
             <div class="bonus-section">
-                <button onclick="increaseClick()">Boost du click</button>
+                <button onclick="increaseClick()">
+                    <img class="bonusEmoji" src="./images/ClickBonus.png">
+                </button>
                 <p>Quantité: <span id="clickIncrease">1</span> | Coût: <span id="clickIncreaseCost">5000</span></p>
+            </div>
+
+            <div class="bonus-section">
+                <button onclick="incrementEnergie()">
+                    <img class="bonusEmoji" src="./images/BatterieBonus.png">
+                </button>
+                <p>Quantité: <span id="energieActuel">0</span> | Coût: <span id="bonusEnergieCost">5000</span></p>
             </div>
 
             <button class="reset" onclick="resetVariables()">Réinitialiser</button>
         </div>
     </main>
 
+    <div id="conveyor-container">
+        <div id="conveyor"></div>
+    </div>
+
+    <canvas id="matrix"></canvas>
     <script src="script.js"></script>
+    <script src="canvaAnimation.js"></script>
 </body>
 </html>

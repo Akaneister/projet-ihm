@@ -1,17 +1,25 @@
 // Initialize robots from localStorage, or set to 0 if it doesn't exist
-let robots = parseInt(localStorage.getItem('robots')) || 99;
+let robots = parseInt(localStorage.getItem('robots')) || 0;
 let bonusRobotArmCost = parseInt(localStorage.getItem('bonusRobotArmCost')) || 100;
 let QBonusRobotArm = parseInt(localStorage.getItem('QBonusRobotArm')) || 0;
 
 let clickIncreaseCost = parseInt(localStorage.getItem('clickIncreaseCost')) || 5000;
 let clickIncrease = parseInt(localStorage.getItem('clickIncrease')) || 1;
 
-// Display the initial value
+let energieActuel = parseInt(localStorage.getItem('energieActuel')) || 100;
+let bonusEnergieCost = parseInt(localStorage.getItem('bonusEnergie')) || 5000;
+
+let canCreateCube = true;
+
+// --------------------------- Affichage des valeurs au chargement de la page -------------------------------------
 document.getElementById('robots').innerHTML = robots;
 document.getElementById('QBonusRobotArm').innerHTML = QBonusRobotArm;
 document.getElementById('bonusRobotArmCost').innerHTML = bonusRobotArmCost;
 document.getElementById('clickIncreaseCost').innerHTML = clickIncreaseCost;
 document.getElementById('clickIncrease').innerHTML = clickIncrease;
+document.getElementById('energieActuel').innerHTML = energieActuel;
+document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
+// --------------------------- Affichage des valeurs au chargement de la page END ---------------------------------
 
 function IncrementWithSparkles(event) {
     console.log("Clic reçu !"); // Ajouter un log ici pour vérifier l'appel de la fonction
@@ -26,6 +34,15 @@ function IncrementWithSparkles(event) {
 
     // Génération des étincelles à la position du clic
     createSparkles(event);
+
+    if (!canCreateCube) return; // Exit if cooldown is active
+
+    canCreateCube = false;
+    setTimeout(() => {
+        canCreateCube = true;
+    }, 500); // 1-second cooldown
+
+    createMovingSquare();
 }
 
 function createSparkles(event) {
@@ -76,6 +93,24 @@ function createSparkles(event) {
     }
 }
 
+function incrementEnergie() {
+    // Check if enough robots are available to purchase the bonus
+    if (robots >= bonusEnergieCost) {
+        // Deduct the cost from robots and save it in localStorage
+        robots -= bonusRobotArmCost;
+        localStorage.setItem('robots', robots);
+        document.getElementById('robots').innerHTML = robots;
+
+        energieActuel *= 1.5;
+        localStorage.setItem('energieActuel', energieActuel);
+        document.getElementById('energieActuel').innerHTML = energieActuel;
+
+        bonusEnergieCost *= 1.2;
+        localStorage.setItem('bonusEnergieCost', bonusEnergieCost);
+        document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
+    }
+}
+
 function incrementBonusRobotArm() {
     // Check if enough robots are available to purchase the bonus
     if (robots >= bonusRobotArmCost) {
@@ -93,13 +128,6 @@ function incrementBonusRobotArm() {
         bonusRobotArmCost = Math.floor(bonusRobotArmCost * 1.1);
         localStorage.setItem('bonusRobotArmCost', bonusRobotArmCost);
         document.getElementById('bonusRobotArmCost').innerHTML = bonusRobotArmCost;
-
-        // Increase the click increase value
-        clickIncrease += 1;
-        localStorage.setItem('clickIncrease', clickIncrease);
-        document.getElementById('clickIncrease').innerHTML = clickIncrease;
-    } else {
-        alert("Pas assez de robots pour acheter un bras bonus !");
     }
 }
 
@@ -120,8 +148,6 @@ function increaseClick() {
         clickIncreaseCost = Math.floor(clickIncreaseCost * 1.5);
         localStorage.setItem('clickIncreaseCost', clickIncreaseCost);
         document.getElementById('clickIncreaseCost').innerHTML = clickIncreaseCost;
-    } else {
-        alert("Pas assez de robots pour augmenter le boost du clic !");
     }
 }
 
@@ -131,18 +157,26 @@ function resetVariables() {
     QBonusRobotArm = 0;
     clickIncreaseCost = 5000;
     clickIncrease = 1;
+    energieActuel = 100;
+    bonusEnergieCost = 5000;
 
     localStorage.setItem('robots', robots);
     localStorage.setItem('bonusRobotArmCost', bonusRobotArmCost);
     localStorage.setItem('QBonusRobotArm', QBonusRobotArm);
     localStorage.setItem('clickIncreaseCost', clickIncreaseCost);
     localStorage.setItem('clickIncrease', clickIncrease);
+    localStorage.setItem('energieActuel', energieActuel);
+    localStorage.setItem('bonusEnergieCost', bonusEnergieCost);
+
 
     document.getElementById('robots').innerHTML = robots;
     document.getElementById('QBonusRobotArm').innerHTML = QBonusRobotArm;
     document.getElementById('bonusRobotArmCost').innerHTML = bonusRobotArmCost;
     document.getElementById('clickIncreaseCost').innerHTML = clickIncreaseCost;
     document.getElementById('clickIncrease').innerHTML = clickIncrease;
+    document.getElementById('energieActuel').innerHTML = energieActuel;
+    document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
+
 }
 
 function preventKeyPress(event) {
@@ -161,6 +195,28 @@ function activateBonus() {
         localStorage.setItem('robots', robots);
     }
 }
+
+// ------------------------------------- Moving Cube Creation -----------------------------------------
+
+// Select the conveyor container
+const conveyor = document.getElementById('conveyor-container');
+
+// Function to create a moving square
+function createMovingSquare() {
+    // Create a new square
+    const square = document.createElement('div');
+    square.classList.add('moving-square');
+
+    // Append the square to the conveyor container
+    conveyor.appendChild(square);
+
+    // Remove the square after the animation ends (to prevent clutter in the DOM)
+    square.addEventListener('animationend', () => {
+        conveyor.removeChild(square);
+    });
+}
+
+// ------------------------------------- Moving Cube Creation END -------------------------------------
 
 function bonusActivation() {
     setInterval(activateBonus, 500)

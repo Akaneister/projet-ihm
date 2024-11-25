@@ -8,3 +8,13 @@
 
 ---------------------------------------------- BUGS ----------------------------------------------
 - supprimer le bug de build avec le bouton entrée.
+
+---------------------------------------------- TO DO ----------------------------------------------
+- Faire que le matrix effect ne ce lance que après l'achat du bonus click
+- Faire que des bras ce rajoute sur le convoyer quand on en achete
+- Finir d'intégrer l'energie
+- Séparer le code avec des commentaires pour plus de visibilité
+- Faire tout les commentaires en francais
+- passer les cubes en emoji jambe robot disponible dans le fichier images (rajouter du random avec d'autres
+parties de corps robots)
+- Compteur general non visible mais pour les bonus ta capté
