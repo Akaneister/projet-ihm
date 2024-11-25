@@ -8,6 +8,7 @@ let clickIncrease = parseInt(localStorage.getItem('clickIncrease')) || 1;
 
 let energieActuel = parseInt(localStorage.getItem('energieActuel')) || 100;
 let bonusEnergieCost = parseInt(localStorage.getItem('bonusEnergie')) || 5000;
+let consommationEnergieActuel = parseInt(localStorage.getItem('consommationEnergieActuel')) || 10;
 
 let canCreateCube = true;
 
@@ -151,6 +152,7 @@ function increaseClick() {
     }
 }
 
+// ---------------------------------------------- Reset Variables ----------------------------------------------
 function resetVariables() {
     robots = 0;
     bonusRobotArmCost = 100;
@@ -176,16 +178,48 @@ function resetVariables() {
     document.getElementById('clickIncrease').innerHTML = clickIncrease;
     document.getElementById('energieActuel').innerHTML = energieActuel;
     document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
-
 }
+// ---------------------------------------------- Reset Variables END ----------------------------------------------
 
+// --------------------------- Bloque l'utilisation de touche pour cliquer ---------------------------
 function preventKeyPress(event) {
     // Bloque les événements clavier sauf le clic
     if (event.key === "Enter" || event.key === " " || event.code === "Space") {
         event.preventDefault();
     }
 }
+// --------------------------- Bloque l'utilisation de touche pour cliquer END ---------------------------
 
+// ------------------------------------- Moving Cube Creation -------------------------------------
+// Select the conveyor container
+const conveyor = document.getElementById('conveyor-container');
+
+// Function to create a moving square
+function createMovingSquare() {
+    const cubeImage = document.createElement('img');
+    let random = Math.floor(Math.random() * 2);
+
+    switch (random) {
+        case 0:
+            cubeImage.src = './images/RobotArmEmojiAnimation.png';
+            break;
+        case 1:
+            cubeImage.src = './images/RobotLegEmojiAnimation.png';
+            break;
+    }
+    cubeImage.alt = 'Cube';
+    cubeImage.classList.add('moving-square');
+
+    const conveyor = document.getElementById('conveyor-container');
+    conveyor.appendChild(cubeImage);
+
+    cubeImage.addEventListener('animationend', () => {
+        conveyor.removeChild(cubeImage);
+    });
+}
+// ------------------------------------- Moving Cube Creation END -------------------------------------
+
+// ----------------------------- Activation des bonus toutes les 0.5s -----------------------------
 function activateBonus() {
     if (QBonusRobotArm > 0) {
         robots += QBonusRobotArm * 2;
@@ -196,30 +230,9 @@ function activateBonus() {
     }
 }
 
-// ------------------------------------- Moving Cube Creation -----------------------------------------
-
-// Select the conveyor container
-const conveyor = document.getElementById('conveyor-container');
-
-// Function to create a moving square
-function createMovingSquare() {
-    // Create a new square
-    const square = document.createElement('div');
-    square.classList.add('moving-square');
-
-    // Append the square to the conveyor container
-    conveyor.appendChild(square);
-
-    // Remove the square after the animation ends (to prevent clutter in the DOM)
-    square.addEventListener('animationend', () => {
-        conveyor.removeChild(square);
-    });
-}
-
-// ------------------------------------- Moving Cube Creation END -------------------------------------
-
 function bonusActivation() {
     setInterval(activateBonus, 500)
 }
 
 bonusActivation();
+// ----------------------------- Activation des bonus toutes les 0.5s END -----------------------------
