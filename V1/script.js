@@ -97,7 +97,7 @@ function incrementEnergie() {
     // Check if enough robots are available to purchase the bonus
     if (robots >= bonusEnergieCost) {
         // Deduct the cost from robots and save it in localStorage
-        robots -= bonusRobotArmCost;
+        robots -= bonusEnergieCost;
         localStorage.setItem('robots', robots);
         document.getElementById('robots').innerHTML = robots;
 
