@@ -256,7 +256,9 @@ const conveyor = document.getElementById('conveyor-container');
 function createMovingSquare() {
     const cubeImage = document.createElement('img');
     let random = Math.floor(Math.random() * 2);
-
+    
+    //faire apparaitre un bras robotique ou une jambe robotique aleatoirement avec une rotation aleatoire
+    cubeImage.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
     switch (random) {
         case 0:
             cubeImage.src = './images/RobotArmEmojiAnimation.png';
@@ -280,7 +282,6 @@ function createMovingSquare() {
 
 
 
-//test branche
 
 
 
