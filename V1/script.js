@@ -255,16 +255,31 @@ const conveyor = document.getElementById('conveyor-container');
 // Function to create a moving square
 function createMovingSquare() {
     const cubeImage = document.createElement('img');
-    let random = Math.floor(Math.random() * 2);
+    let previousRandom = -1;
+    let random;
+    do {
+        random = Math.floor(Math.random() * 4);
+    } while (random === previousRandom);
+    previousRandom = random;
     
     //faire apparaitre un bras robotique ou une jambe robotique aleatoirement avec une rotation aleatoire
     cubeImage.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+    
     switch (random) {
         case 0:
             cubeImage.src = './images/RobotArmEmojiAnimation.png';
             break;
         case 1:
             cubeImage.src = './images/RobotLegEmojiAnimation.png';
+            break;
+        case 2:
+            cubeImage.src = './images/RobotHeadEmojiAnimation.png';
+            break;
+        case 2:
+            cubeImage.src = './images/RobotHeadEmojiAnimation.png';
+            break;
+        case 3:
+            cubeImage.src = './images/RobotBusteEmojiAnimation.png';
             break;
     }
     cubeImage.alt = 'Cube';
