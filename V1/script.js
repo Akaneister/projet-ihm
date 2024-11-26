@@ -293,9 +293,6 @@ function createMovingSquare() {
         case 2:
             cubeImage.src = './images/RobotHeadEmojiAnimation.png';
             break;
-        case 2:
-            cubeImage.src = './images/RobotHeadEmojiAnimation.png';
-            break;
         case 3:
             cubeImage.src = './images/RobotBusteEmojiAnimation.png';
             break;
