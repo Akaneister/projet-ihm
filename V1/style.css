@@ -262,4 +262,37 @@ button {
     }
 }
 
+/* Image Placement Slots */
+#image-placements-behind {
+    position: absolute;
+    bottom: 40px; /* Space the slots above the conveyor */
+    left: 0;
+    width: calc(100% - 200px);
+    display: flex;
+    justify-content: space-between; /* Space slots evenly */
+}
+
+.placement-behind {
+    width: 50px; /* Width of the placement slots */
+    height: 50px; /* Height of the placement slots */
+    background-color: transparent; /* Invisible slots */
+}
+
+/* Image Placement Slots in Front of the Conveyor */
+#image-placements-front {
+    position: absolute;
+    bottom: 0px; /* Position slots just in front of the conveyor */
+    left: 3%;
+    width: calc(100% - 200px); /* Reduce width to leave space on the sides if needed */
+    display: flex;
+    justify-content: space-between; /* Space slots evenly */
+    z-index: 2; /* Ensure this is above the conveyor */
+}
+
+.placement-front {
+    width: 50px; /* Width of the placement slots */
+    height: 50px; /* Height of the placement slots */
+    background-color: transparent; /* Invisible slots */
+}
+
 /* ----------------------------------- Convoyer Animation END ----------------------------------- */

@@ -168,6 +168,8 @@ function incrementBonusRobotArm() {
         consommationEnergieActuel += 10;
         localStorage.setItem('consommationEnergieActuel', consommationEnergieActuel);
         document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
+
+        updatePlacementSlots();
     }
 }
 
@@ -332,12 +334,68 @@ function activateBonus() {
     }
 }
 
+function activateAnimation() {
+    if (QBonusRobotArm > 0 && canCreateCube) {
+        createMovingSquare();
+    }
+}
+
 function bonusActivation() {
-    setInterval(activateBonus, 500)
+    setInterval(activateBonus, 500);
+    setInterval(activateAnimation, 8000 - (100*QBonusRobotArm));
 }
 
 bonusActivation();
 // ----------------------------- Activation des bonus toutes les 0.5s END -----------------------------
+
+
+
+/*
+
+// ----------------------------- Fonction animation bras convoyer -------------------------------------
+// Function to update the slots based on QBonusRobotArm
+function updatePlacementSlots() {
+    // Get the containers
+    const behindContainer = document.getElementById('image-placements-behind');
+    const frontContainer = document.getElementById('image-placements-front');
+
+    // Clear any previous content
+    behindContainer.innerHTML = '';
+    frontContainer.innerHTML = '';
+
+    // Update the "behind" and "front" containers
+    for (let i = 0; i < 10; i++) { // 10 placement slots
+        const behindSlot = document.createElement('div');
+        behindSlot.classList.add('placement');
+        
+        // If QBonusRobotArm is greater than the current index, add the bonus image
+        if (i < QBonusRobotArm) {
+            const img = document.createElement('img');
+            img.classList.add('bonusEmoji');
+            img.src = './images/BrasMecaniqueBonus.png';
+            behindSlot.appendChild(img);
+        }
+
+        // Append the slot to the "behind" container
+        behindContainer.appendChild(behindSlot);
+
+        const frontSlot = document.createElement('div');
+        frontSlot.classList.add('placement');
+
+        // Similarly, add the bonus image to the front container if needed
+        if (i < QBonusRobotArm) {
+            const imgFront = document.createElement('img');
+            imgFront.classList.add('bonusEmoji');
+            imgFront.src = './images/BrasMecaniqueBonus.png';
+            frontSlot.appendChild(imgFront);
+        }
+
+        // Append the slot to the "front" container
+        frontContainer.appendChild(frontSlot);
+    }
+}
+// ----------------------------- Fonction animation bras convoyer END -------------------------------------
+*/
 
 //------------------------------ Terminal Function //------------------------------
 
