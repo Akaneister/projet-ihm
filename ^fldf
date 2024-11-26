@@ -1,0 +1,44 @@
+[33mcommit efa5e41b836e90d29930554374d6369fb165b403[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Oscar <Oscar.vieujean@outlook.com>
+Date:   Tue Nov 26 10:12:13 2024 +0100
+
+    Update
+
+[1mdiff --git a/V1/script.js b/V1/script.js[m
+[1mindex 54b329c..21a0b57 100644[m
+[1m--- a/V1/script.js[m
+[1m+++ b/V1/script.js[m
+[36m@@ -255,10 +255,16 @@[m [mconst conveyor = document.getElementById('conveyor-container');[m
+ // Function to create a moving square[m
+ function createMovingSquare() {[m
+     const cubeImage = document.createElement('img');[m
+[31m-    let random = Math.floor(Math.random() * 2);[m
+[32m+[m[32m    let previousRandom = -1;[m
+[32m+[m[32m    let random;[m
+[32m+[m[32m    do {[m
+[32m+[m[32m        random = Math.floor(Math.random() * 4);[m
+[32m+[m[32m    } while (random === previousRandom);[m
+[32m+[m[32m    previousRandom = random;[m
+     [m
+     //faire apparaitre un bras robotique ou une jambe robotique aleatoirement avec une rotation aleatoire[m
+     cubeImage.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;[m
+[32m+[m[41m    [m
+     switch (random) {[m
+         case 0:[m
+             cubeImage.src = './images/RobotArmEmojiAnimation.png';[m
+[36m@@ -266,6 +272,15 @@[m [mfunction createMovingSquare() {[m
+         case 1:[m
+             cubeImage.src = './images/RobotLegEmojiAnimation.png';[m
+             break;[m
+[32m+[m[32m        case 2:[m
+[32m+[m[32m            cubeImage.src = './images/RobotHeadEmojiAnimation.png';[m
+[32m+[m[32m            break;[m
+[32m+[m[32m        case 2:[m
+[32m+[m[32m            cubeImage.src = './images/RobotHeadEmojiAnimation.png';[m
+[32m+[m[32m            break;[m
+[32m+[m[32m        case 3:[m
+[32m+[m[32m            cubeImage.src = './images/RobotBusteEmojiAnimation.png';[m
+[32m+[m[32m            break;[m
+     }[m
+     cubeImage.alt = 'Cube';[m
+     cubeImage.classList.add('moving-square');[m
