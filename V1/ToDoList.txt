@@ -1,5 +1,5 @@
 ---------------------------------------------- DESIGN ----------------------------------------------
-- Effet d'étincelle quand on clique sur construire.
+- Effet d'étincelle quand on clique sur construire.        
 - Faire des images IA pour les bonus ou des étapes.
 - Faire des succès.
 
@@ -18,3 +18,14 @@
 - passer les cubes en emoji jambe robot disponible dans le fichier images (rajouter du random avec d'autres
 parties de corps robots)
 - Compteur general non visible mais pour les bonus ta capté
+
+
+
+-------------------------------------------------Commande GitHub ---------------------------------------
+
+git checkout nom_de_branche   : Permet de se deplacer entre les branches
+
+git merge nom_de_branche :Permet d'ajouter la branche " nom_de_branche" a la branche actuellemnt   !!! Bien etre dans le master !!
+
+git push origin :    pour push au bonne endroit 
+
