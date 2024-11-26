@@ -12,6 +12,12 @@ let consommationEnergieActuel = parseInt(localStorage.getItem('consommationEnerg
 
 let canCreateCube = true;
 
+
+
+
+
+
+
 // --------------------------- Affichage des valeurs au chargement de la page -------------------------------------
 document.getElementById('robots').innerHTML = robots;
 document.getElementById('QBonusRobotArm').innerHTML = QBonusRobotArm;
@@ -22,6 +28,15 @@ document.getElementById('energieActuel').innerHTML = energieActuel;
 document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
 // --------------------------- Affichage des valeurs au chargement de la page END ---------------------------------
 
+
+
+
+
+
+
+
+
+//--------------------------- Effet visuel -------------------------------------
 function IncrementWithSparkles(event) {
     console.log("Clic reçu !"); // Ajouter un log ici pour vérifier l'appel de la fonction
     // Incrémentation classique
@@ -46,6 +61,7 @@ function IncrementWithSparkles(event) {
     createMovingSquare();
 }
 
+//Creation des particules d'étincelles lors du clic 
 function createSparkles(event) {
     const sparklesContainer = document.getElementById("sparkles");
     const sparklesCount = 20; // Nombre d'étincelles
@@ -94,6 +110,19 @@ function createSparkles(event) {
     }
 }
 
+// --------------------------- Effet visuel END -------------------------------------
+
+
+
+
+
+
+
+
+
+
+// ---------------------------------------------- Fonction d'amelioration ----------------------------------------------
+//ajout de la fonction pour la consommation d'énergie
 function incrementEnergie() {
     // Check if enough robots are available to purchase the bonus
     if (robots >= bonusEnergieCost) {
@@ -112,6 +141,7 @@ function incrementEnergie() {
     }
 }
 
+//ajout de la fonction de bras robotique bonus
 function incrementBonusRobotArm() {
     // Check if enough robots are available to purchase the bonus
     if (robots >= bonusRobotArmCost) {
@@ -132,6 +162,7 @@ function incrementBonusRobotArm() {
     }
 }
 
+//ajout de la fonction pour augmenter le nombre de clics
 function increaseClick() {
     // Check if enough robots are available to purchase the click increase
     if (robots >= clickIncreaseCost) {
@@ -151,6 +182,18 @@ function increaseClick() {
         document.getElementById('clickIncreaseCost').innerHTML = clickIncreaseCost;
     }
 }
+// ---------------------------------------------- Fonction d'amelioration END ----------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
 // ---------------------------------------------- Reset Variables ----------------------------------------------
 function resetVariables() {
@@ -181,6 +224,13 @@ function resetVariables() {
 }
 // ---------------------------------------------- Reset Variables END ----------------------------------------------
 
+
+
+
+
+
+
+
 // --------------------------- Bloque l'utilisation de touche pour cliquer ---------------------------
 function preventKeyPress(event) {
     // Bloque les événements clavier sauf le clic
@@ -189,6 +239,14 @@ function preventKeyPress(event) {
     }
 }
 // --------------------------- Bloque l'utilisation de touche pour cliquer END ---------------------------
+
+
+
+
+
+
+
+
 
 // ------------------------------------- Moving Cube Creation -------------------------------------
 // Select the conveyor container
@@ -218,6 +276,16 @@ function createMovingSquare() {
     });
 }
 // ------------------------------------- Moving Cube Creation END -------------------------------------
+
+
+
+
+
+
+
+
+
+
 
 // ----------------------------- Activation des bonus toutes les 0.5s -----------------------------
 function activateBonus() {
