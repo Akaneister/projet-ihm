@@ -1,5 +1,6 @@
 // Initialisation des variables à leurs états de sauvegarde ou à leurs état basique de départ.
 let robots = parseInt(localStorage.getItem('robots')) || 0;
+
 let bonusRobotArmCost = parseInt(localStorage.getItem('bonusRobotArmCost')) || 100;
 let QBonusRobotArm = parseInt(localStorage.getItem('QBonusRobotArm')) || 0;
 
@@ -7,18 +8,18 @@ let clickIncreaseCost = parseInt(localStorage.getItem('clickIncreaseCost')) || 5
 let clickIncrease = parseInt(localStorage.getItem('clickIncrease')) || 1;
 
 let energieActuel = parseInt(localStorage.getItem('energieActuel')) || 100;
-let bonusEnergieCost = parseInt(localStorage.getItem('bonusEnergie')) || 5000;
+let QBonusEnergie = parseInt(localStorage.getItem('QBonusEnergie')) || 0;
+let bonusEnergieCost = parseInt(localStorage.getItem('bonusEnergieCost')) || 5000;
 let consommationEnergieActuel = parseInt(localStorage.getItem('consommationEnergieActuel')) || 10;
+
+let QBonusUsine = parseInt(localStorage.getItem('QBonusUsine')) || 0;
+let bonusUsineCost = parseInt(localStorage.getItem('bonusUsineCost')) || 25000;
 
 let compteurGeneral = parseInt(localStorage.getItem('compteurGeneral')) || 0;
 
+let MaxBonusRobotArm = 40 + (40 * QBonusUsine);
+
 let canCreateCube = true;
-
-
-
-
-
-
 
 // --------------------------- Affichage des valeurs au chargement de la page -------------------------------------
 document.getElementById('robots').innerHTML = robots;
@@ -29,6 +30,11 @@ document.getElementById('clickIncrease').innerHTML = clickIncrease;
 document.getElementById('energieActuel').innerHTML = energieActuel;
 document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
 document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
+document.getElementById('QBonusEnergie').innerHTML = QBonusEnergie;
+document.getElementById('QBonusUsine').innerHTML = QBonusUsine;
+document.getElementById('bonusUsineCost').innerHTML = bonusUsineCost;
+//document.getElementById('MaxBonusRobotArm').innerHTML = MaxBonusRobotArm;
+
 
 // --------------------------- Affichage des valeurs au chargement de la page END ---------------------------------
 
@@ -135,20 +141,26 @@ function incrementEnergie() {
         localStorage.setItem('robots', robots);
         document.getElementById('robots').innerHTML = robots;
 
-        energieActuel *= 1.2;
+        QBonusEnergie += 1;
+        localStorage.setItem('QBonusEnergie', QBonusEnergie);
+        document.getElementById('QBonusEnergie').innerHTML = QBonusEnergie;
+
+        energieActuel += 100 + (energieActuel/10);
         localStorage.setItem('energieActuel', energieActuel);
         document.getElementById('energieActuel').innerHTML = energieActuel;
 
         bonusEnergieCost *= 1.5;
         localStorage.setItem('bonusEnergieCost', bonusEnergieCost);
         document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
+
+        mettreAJourAffichage();
     }
 }
 
 //ajout de la fonction de bras robotique bonus
 function incrementBonusRobotArm() {
     // Check if enough robots are available to purchase the bonus
-    if (robots >= bonusRobotArmCost && (consommationEnergieActuel + 10) <= energieActuel) {
+    if (robots >= bonusRobotArmCost && (consommationEnergieActuel + 10) <= energieActuel && QBonusRobotArm < MaxBonusRobotArm) {
         // Deduct the cost from robots and save it in localStorage
         robots -= bonusRobotArmCost;
         localStorage.setItem('robots', robots);
@@ -169,7 +181,7 @@ function incrementBonusRobotArm() {
         localStorage.setItem('consommationEnergieActuel', consommationEnergieActuel);
         document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
 
-        updatePlacementSlots();
+        mettreAJourAffichage();
     }
 }
 
@@ -196,6 +208,32 @@ function increaseClick() {
         consommationEnergieActuel += 20;
         localStorage.setItem('consommationEnergieActuel', consommationEnergieActuel);
         document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
+
+        mettreAJourAffichage();
+    }
+}
+
+function incrementBonusUsine() {
+
+    if (robots >= bonusUsineCost && (consommationEnergieActuel + 40) <= energieActuel) {
+
+        robots -= clickIncreaseCost;
+        localStorage.setItem('robots', robots);
+        document.getElementById('robots').innerHTML = robots;
+
+        QBonusUsine += 1;
+        localStorage.setItem('QBonusUsine', QBonusUsine);
+        document.getElementById('QBonusUsine').innerHTML = QBonusUsine;
+
+        bonusUsineCost = Math.floor(bonusUsineCost * 1.5);
+        localStorage.setItem('bonusUsineCost', bonusUsineCost);
+        document.getElementById('bonusUsineCost').innerHTML = bonusUsineCost;
+
+        consommationEnergieActuel += 40;
+        localStorage.setItem('consommationEnergieActuel', consommationEnergieActuel);
+        document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
+
+        mettreAJourAffichage();
     }
 }
 // ---------------------------------------------- Fonction d'amelioration END ----------------------------------------------
@@ -213,7 +251,7 @@ function increaseClick() {
 
 // ---------------------------------------------- Reset Variables ----------------------------------------------
 function resetVariables() {
-    robots = 7000;
+    robots = 80000;
     bonusRobotArmCost = 100;
     QBonusRobotArm = 0;
     clickIncreaseCost = 5000;
@@ -222,6 +260,10 @@ function resetVariables() {
     bonusEnergieCost = 5000;
     consommationEnergieActuel = 10;
     compteurGeneral = 0;
+    QBonusEnergie = 0;
+    QBonusUsine = 0;
+    bonusUsineCost = 25000;
+    MaxBonusRobotArm =  40 + (40 * QBonusUsine);
 
     localStorage.setItem('robots', robots);
     localStorage.setItem('bonusRobotArmCost', bonusRobotArmCost);
@@ -232,6 +274,10 @@ function resetVariables() {
     localStorage.setItem('bonusEnergieCost', bonusEnergieCost);
     localStorage.setItem('consommationEnergieActuel', consommationEnergieActuel);
     localStorage.setItem('compteurGeneral', compteurGeneral);
+    localStorage.setItem('QBonusEnergie', QBonusEnergie);
+    localStorage.setItem('QBonusUsine', QBonusUsine);
+    localStorage.setItem('bonusUsineCost', bonusUsineCost);
+    localStorage.setItem('MaxBonusRobotArm', MaxBonusRobotArm);
 
     document.getElementById('robots').innerHTML = robots;
     document.getElementById('QBonusRobotArm').innerHTML = QBonusRobotArm;
@@ -241,6 +287,12 @@ function resetVariables() {
     document.getElementById('energieActuel').innerHTML = energieActuel;
     document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
     document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
+    document.getElementById('QBonusEnergie').innerHTML = QBonusEnergie;
+    document.getElementById('QBonusUsine').innerHTML = QBonusUsine;
+    document.getElementById('bonusUsineCost').innerHTML = bonusUsineCost;
+    document.getElementById('MaxBonusRobotArm').innerHTML = MaxBonusRobotArm;
+
+    mettreAJourAffichage();
 }
 // ---------------------------------------------- Reset Variables END ----------------------------------------------
 
@@ -325,7 +377,9 @@ function createMovingSquare() {
 function activateBonus() {
     if (QBonusRobotArm > 0) {
         robots += QBonusRobotArm * 2;
+        robots += QBonusUsine * 50;
         compteurGeneral += QBonusRobotArm * 2;
+        compteurGeneral += QBonusUsine * 50;
 
         document.getElementById('robots').innerHTML = robots;
         localStorage.setItem('robots', robots);
@@ -350,7 +404,6 @@ bonusActivation();
 
 
 
-/*
 
 // ----------------------------- Fonction animation bras convoyer -------------------------------------
 // Function to update the slots based on QBonusRobotArm
@@ -395,7 +448,47 @@ function updatePlacementSlots() {
     }
 }
 // ----------------------------- Fonction animation bras convoyer END -------------------------------------
-*/
+
+
+
+
+
+// ------------------------------ Fonctions de gestion de la barre d'energie -------------------------------
+// Génération de la barre d'énergie
+function genererBarreEnergie() {
+    const barreEnergie = document.getElementById('barreEnergie');
+    barreEnergie.innerHTML = ''; // Clear the existing segments
+
+    for (let i = 1; i <= energieActuel; i++) {
+        let segment = document.createElement('div'); // Declare segment inside the loop
+        segment.classList.add('segment');
+        if (i <= consommationEnergieActuel) {
+            segment.classList.add('consumed'); // Mark consumed segments
+        }
+        barreEnergie.appendChild(segment);
+    }
+}
+
+// Mise à jour de l'affichage
+function mettreAJourAffichage() {
+    const barreEnergie = document.getElementById('barreEnergie');
+    barreEnergie.innerHTML = ''; // Clear the existing segments
+
+    for (let i = 1; i <= energieActuel; i++) {
+        let segment = document.createElement('div'); // Declare segment inside the loop
+        segment.classList.add('segment');
+        if (i <= consommationEnergieActuel) {
+            segment.classList.add('consumed'); // Mark consumed segments
+        }
+        barreEnergie.appendChild(segment);
+    }
+}
+
+// Initialisation de la barre
+genererBarreEnergie();
+
+// ------------------------------ Fonctions de gestion de la barre d'energie END -------------------------------
+
 
 //------------------------------ Terminal Function //------------------------------
 

@@ -265,17 +265,11 @@ button {
 /* Image Placement Slots */
 #image-placements-behind {
     position: absolute;
-    bottom: 40px; /* Space the slots above the conveyor */
+    bottom: 50px; /* Space the slots above the conveyor */
     left: 0;
     width: calc(100% - 200px);
     display: flex;
     justify-content: space-between; /* Space slots evenly */
-}
-
-.placement-behind {
-    width: 50px; /* Width of the placement slots */
-    height: 50px; /* Height of the placement slots */
-    background-color: transparent; /* Invisible slots */
 }
 
 /* Image Placement Slots in Front of the Conveyor */
@@ -289,10 +283,43 @@ button {
     z-index: 2; /* Ensure this is above the conveyor */
 }
 
-.placement-front {
+.placement {
     width: 50px; /* Width of the placement slots */
     height: 50px; /* Height of the placement slots */
     background-color: transparent; /* Invisible slots */
 }
 
 /* ----------------------------------- Convoyer Animation END ----------------------------------- */
+
+#barreEnergieContainer {
+    position: absolute;
+    left: 4%;
+    top: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center-align items if needed */
+}
+
+#barreEnergie {
+    display: flex;
+    flex-direction: column-reverse; /* Align segments from bottom to top */
+    width: 30px;
+    height: 300px;
+    background-color: #ccc; /* Optional background for visibility */
+    border: 1px solid black; /* Optional border for styling */
+}
+
+#barreEnergieInfo {
+    margin-top: 5px; /* Adds spacing between the energy bar and the info */
+    text-align: center;
+}
+
+  .segment {
+    width: 100%;
+    height: 1%; /* Chaque segment représente 1% */
+    background-color: grey;
+  }
+
+  .segment.consumed {
+    background-color: orange;
+  }

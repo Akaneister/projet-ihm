@@ -7,14 +7,12 @@
 - Son de metal / marteau quand on clique.
 
 ---------------------------------------------- BUGS ----------------------------------------------
-- supprimer le bug de build avec le bouton entrée.
 
 ---------------------------------------------- TO DO ----------------------------------------------
 - Faire que le matrix effect ne ce lance que après l'achat du bonus click
 - Faire que des bras ce rajoute sur le convoyer quand on en achete
 - Séparer le code avec des commentaires pour plus de visibilité
 - Faire tout les commentaires en francais
-- Compteur general non visible mais pour les bonus ta capté
 
 -------------------------------------------------Commande GitHub ---------------------------------------
 

@@ -12,14 +12,25 @@
         <h1>ROBOT FACTORY</h1>
     </header>
 
+    <div id="barreEnergieContainer">
+
+        <div id="barreEnergie">
+            <!-- Segments de la barre -->
+        </div>
+        <div id="barreEnergieInfo">
+            <p>⚡
+                <b>
+                    <span id="consommationEnergieActuel"></span>/<span id="energieActuel"></span></p>
+                </b>
+            </div>  
+        </div>
+
     <main>
         <!-- Bouton principale -->
         <div class="action">
             <p><b>ROBOTS : <span id="robots">0</span></b></p>
             <div id="sparkles"></div>
             <button type="button" onclick="IncrementWithSparkles(event)" onkeydown="preventKeyPress(event)">⚙️</button>
-
-            <p><b>Energie : <span id="consommationEnergieActuel">10</span></b></p>
         </div>
 
         <!-- Conteneur pour les sections de bonus -->
@@ -42,7 +53,14 @@
                 <button onclick="incrementEnergie()">
                     <img class="bonusEmoji" src="./images/BatterieBonus.png">
                 </button>
-                <p>Quantité: <span id="energieActuel">0</span> | Coût: <span id="bonusEnergieCost">5000</span></p>
+                <p>Quantité: <span id="QBonusEnergie"></span> | Coût: <span id="bonusEnergieCost">5000</span></p>
+            </div>
+
+            <div class="bonus-section">
+                <button onclick="incrementBonusUsine()">
+                    <img class="bonusEmoji" src="./images/factoryEmojiBonus.png">
+                </button>
+                <p>Quantité: <span id="QBonusUsine">0</span> | Coût: <span id="bonusUsineCost">25000</span></p>
             </div>
 
             <button class="reset" onclick="resetVariables()">Réinitialiser</button>
