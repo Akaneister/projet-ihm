@@ -19,7 +19,15 @@ let compteurGeneral = parseInt(localStorage.getItem('compteurGeneral')) || 0;
 
 let MaxBonusRobotArm = 40 + (40 * QBonusUsine);
 
+let QBrasMecaniqueBehind = parseInt(localStorage.getItem('QBrasMecaniqueBehind')) || 0;
+let QBrasMecaniqueFront = parseInt(localStorage.getItem('QBrasMecaniqueFront')) || 0;
+
 let canCreateCube = true;
+
+const RobotArmImage = "./images/BrasMecaniqueBonus.png"
+
+const containerBehind = document.getElementById('image-placements-behind');
+const containerFront = document.getElementById('image-placements-front');
 
 // --------------------------- Affichage des valeurs au chargement de la page -------------------------------------
 document.getElementById('robots').innerHTML = robots;
@@ -181,6 +189,16 @@ function incrementBonusRobotArm() {
         localStorage.setItem('consommationEnergieActuel', consommationEnergieActuel);
         document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
 
+        if (QBonusRobotArm % 2 == 0 && QBonusRobotArm <= 40) {
+            QBrasMecaniqueBehind += 1;
+            localStorage.setItem('QBrasMecaniqueBehind', QBrasMecaniqueBehind);
+            updateImages(containerBehind, QBrasMecaniqueBehind, RobotArmImage);
+        } else {   
+            QBrasMecaniqueFront += 1;
+            localStorage.setItem('QBrasMecaniqueFront', QBrasMecaniqueFront);
+            updateImages(containerFront, QBrasMecaniqueFront, RobotArmImage);
+        }
+
         mettreAJourAffichage();
     }
 }
@@ -264,6 +282,8 @@ function resetVariables() {
     QBonusUsine = 0;
     bonusUsineCost = 25000;
     MaxBonusRobotArm =  40 + (40 * QBonusUsine);
+    QBrasMecaniqueFront = 0;
+    QBrasMecaniqueBehind = 0;
 
     localStorage.setItem('robots', robots);
     localStorage.setItem('bonusRobotArmCost', bonusRobotArmCost);
@@ -278,6 +298,8 @@ function resetVariables() {
     localStorage.setItem('QBonusUsine', QBonusUsine);
     localStorage.setItem('bonusUsineCost', bonusUsineCost);
     localStorage.setItem('MaxBonusRobotArm', MaxBonusRobotArm);
+    localStorage.setItem('QBrasMecaniqueFront', QBrasMecaniqueFront);
+    localStorage.setItem('QBrasMecaniqueBehind', QBrasMecaniqueBehind);
 
     document.getElementById('robots').innerHTML = robots;
     document.getElementById('QBonusRobotArm').innerHTML = QBonusRobotArm;
@@ -290,9 +312,12 @@ function resetVariables() {
     document.getElementById('QBonusEnergie').innerHTML = QBonusEnergie;
     document.getElementById('QBonusUsine').innerHTML = QBonusUsine;
     document.getElementById('bonusUsineCost').innerHTML = bonusUsineCost;
-    document.getElementById('MaxBonusRobotArm').innerHTML = MaxBonusRobotArm;
+//    document.getElementById('MaxBonusRobotArm').innerHTML = MaxBonusRobotArm;
 
-    mettreAJourAffichage();
+    updateImages(containerBehind, QBrasMecaniqueBehind, RobotArmImage);
+    updateImages(containerFront, QBrasMecaniqueFront, RobotArmImage);
+
+    mettreAJourAffichage();    
 }
 // ---------------------------------------------- Reset Variables END ----------------------------------------------
 
@@ -371,8 +396,6 @@ function createMovingSquare() {
 
 
 
-
-
 // ----------------------------- Activation des bonus toutes les 0.5s -----------------------------
 function activateBonus() {
     if (QBonusRobotArm > 0) {
@@ -396,58 +419,13 @@ function activateAnimation() {
 
 function bonusActivation() {
     setInterval(activateBonus, 500);
-    setInterval(activateAnimation, 8000 - (100*QBonusRobotArm));
+    if (canCreateCube) {
+        setInterval(activateAnimation, Math.max(200, 5000 - (150*QBonusRobotArm)));
+    }
 }
 
 bonusActivation();
 // ----------------------------- Activation des bonus toutes les 0.5s END -----------------------------
-
-
-
-
-// ----------------------------- Fonction animation bras convoyer -------------------------------------
-// Function to update the slots based on QBonusRobotArm
-function updatePlacementSlots() {
-    // Get the containers
-    const behindContainer = document.getElementById('image-placements-behind');
-    const frontContainer = document.getElementById('image-placements-front');
-
-    // Clear any previous content
-    behindContainer.innerHTML = '';
-    frontContainer.innerHTML = '';
-
-    // Update the "behind" and "front" containers
-    for (let i = 0; i < 10; i++) { // 10 placement slots
-        const behindSlot = document.createElement('div');
-        behindSlot.classList.add('placement');
-        
-        // If QBonusRobotArm is greater than the current index, add the bonus image
-        if (i < QBonusRobotArm) {
-            const img = document.createElement('img');
-            img.classList.add('bonusEmoji');
-            img.src = './images/BrasMecaniqueBonus.png';
-            behindSlot.appendChild(img);
-        }
-
-        // Append the slot to the "behind" container
-        behindContainer.appendChild(behindSlot);
-
-        const frontSlot = document.createElement('div');
-        frontSlot.classList.add('placement');
-
-        // Similarly, add the bonus image to the front container if needed
-        if (i < QBonusRobotArm) {
-            const imgFront = document.createElement('img');
-            imgFront.classList.add('bonusEmoji');
-            imgFront.src = './images/BrasMecaniqueBonus.png';
-            frontSlot.appendChild(imgFront);
-        }
-
-        // Append the slot to the "front" container
-        frontContainer.appendChild(frontSlot);
-    }
-}
-// ----------------------------- Fonction animation bras convoyer END -------------------------------------
 
 
 
@@ -489,6 +467,45 @@ genererBarreEnergie();
 
 // ------------------------------ Fonctions de gestion de la barre d'energie END -------------------------------
 
+function createSlots(container, totalSlots) {
+    for (let i = 0; i < totalSlots; i++) {
+        const slot = document.createElement('div');
+        slot.classList.add('placement'); // Add slot styling class
+        slot.setAttribute('data-index', i); // Optional: index for future reference
+        container.appendChild(slot);
+    }
+}
+
+// Function to update images in slots based on count
+function updateImages(container, filledCount, imageUrl) {
+    const slots = container.querySelectorAll('.placement');
+    slots.forEach((slot, index) => {
+        if (index < filledCount) {
+            // Check if the slot already contains an image
+            if (!slot.querySelector('img')) {
+                const img = document.createElement('img');
+                img.src = imageUrl; // Replace with the URL of your image
+                img.alt = "Image " + (index + 1);
+                img.style.width = "50px"; // Adjust image size if needed
+                img.style.height = "50px";
+                slot.appendChild(img);
+            }
+        } else {
+            // Ensure slots beyond filledCount do not have images
+            const img = slot.querySelector('img');
+            if (img) {
+                slot.removeChild(img);
+            }
+        }
+    });
+}
+
+// Create 20 slots in each container
+createSlots(containerBehind, 20);
+createSlots(containerFront, 20);
+
+updateImages(containerBehind, QBrasMecaniqueBehind, RobotArmImage);
+updateImages(containerFront, QBrasMecaniqueFront, RobotArmImage);
 
 //------------------------------ Terminal Function //------------------------------
 
