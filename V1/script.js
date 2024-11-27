@@ -1,31 +1,43 @@
 // Initialisation des variables à leurs états de sauvegarde ou à leurs état basique de départ.
+
+// Variable du compteur general de robots actuel
 let robots = parseInt(localStorage.getItem('robots')) || 0;
 
+// Variables pour le bonus de BRAS ROBOT
 let bonusRobotArmCost = parseInt(localStorage.getItem('bonusRobotArmCost')) || 100;
 let QBonusRobotArm = parseInt(localStorage.getItem('QBonusRobotArm')) || 0;
 
+// Variables pour le bonus de CLICK
 let clickIncreaseCost = parseInt(localStorage.getItem('clickIncreaseCost')) || 5000;
 let clickIncrease = parseInt(localStorage.getItem('clickIncrease')) || 1;
 
+// Varialbes pour le système d'energie
 let energieActuel = parseInt(localStorage.getItem('energieActuel')) || 100;
 let QBonusEnergie = parseInt(localStorage.getItem('QBonusEnergie')) || 0;
 let bonusEnergieCost = parseInt(localStorage.getItem('bonusEnergieCost')) || 5000;
 let consommationEnergieActuel = parseInt(localStorage.getItem('consommationEnergieActuel')) || 10;
 
+// Variables pour le bonus USINE
 let QBonusUsine = parseInt(localStorage.getItem('QBonusUsine')) || 0;
 let bonusUsineCost = parseInt(localStorage.getItem('bonusUsineCost')) || 25000;
 
+// Variable pour le compteur general de robots créé
 let compteurGeneral = parseInt(localStorage.getItem('compteurGeneral')) || 0;
 
+// Varialbe pour le nombre max de Bras Mecanique par usine
 let MaxBonusRobotArm = 40 + (40 * QBonusUsine);
 
+// Variables de stockage du nombre de Bras Mecanique le long du convoyer
 let QBrasMecaniqueBehind = parseInt(localStorage.getItem('QBrasMecaniqueBehind')) || 0;
 let QBrasMecaniqueFront = parseInt(localStorage.getItem('QBrasMecaniqueFront')) || 0;
 
+// Variable pour la création de l'image en mouvement sur le convoyeur
 let canCreateCube = true;
 
+// Variable pour le lien de l'image Bras Mecanique
 const RobotArmImage = "./images/BrasMecaniqueBonus.png"
 
+// Variables pour l'affichage des bras le long du convoyeur
 const containerBehind = document.getElementById('image-placements-behind');
 const containerFront = document.getElementById('image-placements-front');
 
@@ -42,21 +54,12 @@ document.getElementById('QBonusEnergie').innerHTML = QBonusEnergie;
 document.getElementById('QBonusUsine').innerHTML = QBonusUsine;
 document.getElementById('bonusUsineCost').innerHTML = bonusUsineCost;
 //document.getElementById('MaxBonusRobotArm').innerHTML = MaxBonusRobotArm;
-
-
 // --------------------------- Affichage des valeurs au chargement de la page END ---------------------------------
-
-
-
-
-
-
 
 
 
 //--------------------------- Effet visuel -------------------------------------
 function IncrementWithSparkles(event) {
-    console.log("Clic reçu !"); // Ajouter un log ici pour vérifier l'appel de la fonction
     // Incrémentation classique
     robots += clickIncrease;
     compteurGeneral += clickIncrease;
@@ -69,12 +72,12 @@ function IncrementWithSparkles(event) {
     // Génération des étincelles à la position du clic
     createSparkles(event);
 
-    if (!canCreateCube) return; // Exit if cooldown is active
+    if (!canCreateCube) return;
 
     canCreateCube = false;
     setTimeout(() => {
         canCreateCube = true;
-    }, 500); // 1-second cooldown
+    }, 500);
 
     createMovingSquare();
 }
@@ -127,64 +130,57 @@ function createSparkles(event) {
         }, 1000);
     }
 }
-
 // --------------------------- Effet visuel END -------------------------------------
-
-
-
-
-
-
-
 
 
 
 // ---------------------------------------------- Fonction d'amelioration ----------------------------------------------
 //ajout de la fonction pour la consommation d'énergie
 function incrementEnergie() {
-    // Check if enough robots are available to purchase the bonus
+    // vérifie si nous avons assez de robots pour acheter le bonus
     if (robots >= bonusEnergieCost) {
-        // Deduct the cost from robots and save it in localStorage
+       
+        // déduit le cout de notre stock et le sauvegarde
         robots -= bonusEnergieCost;
         localStorage.setItem('robots', robots);
         document.getElementById('robots').innerHTML = robots;
-
+        
+        // Ajoute 1 a notre quantité de bonus et la sauvegarde
         QBonusEnergie += 1;
         localStorage.setItem('QBonusEnergie', QBonusEnergie);
         document.getElementById('QBonusEnergie').innerHTML = QBonusEnergie;
-
+       
+        // mets à jour la valeur actuel de notre energie et la sauvegarde
         energieActuel += 100 + (energieActuel/10);
         localStorage.setItem('energieActuel', energieActuel);
         document.getElementById('energieActuel').innerHTML = energieActuel;
-
+       
+        // mets à jour le cout du prochain bonus et le sauvegarde
         bonusEnergieCost *= 1.5;
         localStorage.setItem('bonusEnergieCost', bonusEnergieCost);
         document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
-
+        
+        // mets à jour l'affichage de la barre d'energie
         mettreAJourAffichage();
     }
 }
 
 //ajout de la fonction de bras robotique bonus
 function incrementBonusRobotArm() {
-    // Check if enough robots are available to purchase the bonus
     if (robots >= bonusRobotArmCost && (consommationEnergieActuel + 10) <= energieActuel && QBonusRobotArm < MaxBonusRobotArm) {
-        // Deduct the cost from robots and save it in localStorage
+        
         robots -= bonusRobotArmCost;
         localStorage.setItem('robots', robots);
         document.getElementById('robots').innerHTML = robots;
 
-        // Increase the quantity of bonus robot arms and save it in localStorage
         QBonusRobotArm += 1;
         localStorage.setItem('QBonusRobotArm', QBonusRobotArm);
         document.getElementById('QBonusRobotArm').innerHTML = QBonusRobotArm;
 
-        // Optionally, increase the cost for the next bonus robot arm
         bonusRobotArmCost = Math.floor(bonusRobotArmCost * 1.1);
         localStorage.setItem('bonusRobotArmCost', bonusRobotArmCost);
         document.getElementById('bonusRobotArmCost').innerHTML = bonusRobotArmCost;
 
-        // Ajoute la consommation d'energie du bras mécanique
         consommationEnergieActuel += 10;
         localStorage.setItem('consommationEnergieActuel', consommationEnergieActuel);
         document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
@@ -251,6 +247,10 @@ function incrementBonusUsine() {
         localStorage.setItem('consommationEnergieActuel', consommationEnergieActuel);
         document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
 
+        MaxBonusRobotArm = 40 + (40 * QBonusUsine);
+        localStorage.setItem('MaxBonusRobotArm', MaxBonusRobotArm); 
+        document.getElementById('MaxBonusRobotArm').innerHTML = MaxBonusRobotArm;
+
         mettreAJourAffichage();
     }
 }
@@ -258,18 +258,9 @@ function incrementBonusUsine() {
 
 
 
-
-
-
-
-
-
-
-
-
 // ---------------------------------------------- Reset Variables ----------------------------------------------
 function resetVariables() {
-    robots = 80000;
+    robots = 160000;
     bonusRobotArmCost = 100;
     QBonusRobotArm = 0;
     clickIncreaseCost = 5000;
@@ -323,11 +314,6 @@ function resetVariables() {
 
 
 
-
-
-
-
-
 // --------------------------- Bloque l'utilisation de touche pour cliquer ---------------------------
 function preventKeyPress(event) {
     // Bloque les événements clavier sauf le clic
@@ -336,12 +322,6 @@ function preventKeyPress(event) {
     }
 }
 // --------------------------- Bloque l'utilisation de touche pour cliquer END ---------------------------
-
-
-
-
-
-
 
 
 
@@ -390,12 +370,6 @@ function createMovingSquare() {
 
 
 
-
-
-
-
-
-
 // ----------------------------- Activation des bonus toutes les 0.5s -----------------------------
 function activateBonus() {
     if (QBonusRobotArm > 0) {
@@ -426,8 +400,6 @@ function bonusActivation() {
 
 bonusActivation();
 // ----------------------------- Activation des bonus toutes les 0.5s END -----------------------------
-
-
 
 
 
@@ -464,9 +436,11 @@ function mettreAJourAffichage() {
 
 // Initialisation de la barre
 genererBarreEnergie();
-
 // ------------------------------ Fonctions de gestion de la barre d'energie END -------------------------------
 
+
+
+// ------------------------------ Fonction de gestion de l'animation du convoyer ------------------------------
 function createSlots(container, totalSlots) {
     for (let i = 0; i < totalSlots; i++) {
         const slot = document.createElement('div');
@@ -476,28 +450,66 @@ function createSlots(container, totalSlots) {
     }
 }
 
-// Function to update images in slots based on count
-function updateImages(container, filledCount, imageUrl) {
+ // Function to update images in slots based on count
+ function updateImages(container, filledCount, imageUrl) {
     const slots = container.querySelectorAll('.placement');
     slots.forEach((slot, index) => {
         if (index < filledCount) {
             // Check if the slot already contains an image
             if (!slot.querySelector('img')) {
                 const img = document.createElement('img');
-                img.src = imageUrl; // Replace with the URL of your image
+                img.src = imageUrl; // Set the image source
                 img.alt = "Image " + (index + 1);
                 img.style.width = "50px"; // Adjust image size if needed
                 img.style.height = "50px";
+                img.style.position = "relative"; // Ensure the image is positioned relative to the slot
                 slot.appendChild(img);
+
+                // Add sparkle container
+                const sparkleContainer = document.createElement('div');
+                sparkleContainer.id = 'sparkles'; // Sparkle container styling
+                slot.appendChild(sparkleContainer);
+
+                // Start sparkle animation
+                startSparkles(img, sparkleContainer);
             }
         } else {
             // Ensure slots beyond filledCount do not have images
             const img = slot.querySelector('img');
+            const sparkleContainer = slot.querySelector('#sparkles');
             if (img) {
                 slot.removeChild(img);
             }
+            if (sparkleContainer) {
+                slot.removeChild(sparkleContainer);
+            }
         }
     });
+}
+
+// Function to generate sparkles on an image
+function startSparkles(image, sparkleContainer) {
+
+    const interval = Math.floor(Math.random() * 5000) + 2000;
+
+    setInterval(() => {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        sparkle.textContent = '✨'; // Sparkle emoji
+
+        sparkle.style.left = '30px'; // X-offset relative to the parent container
+        sparkle.style.top = '10px'; // Y-offset relative to the parent container
+
+        // Random direction for the sparkle animation
+        sparkle.style.setProperty('--x', Math.random() * 2 - 1); // Random horizontal movement
+        sparkle.style.setProperty('--y', Math.random() * 2 - 1); // Random vertical movement
+
+        // Append the sparkle to the container (placement slot)
+        sparkleContainer.appendChild(sparkle);
+
+        // Remove the sparkle after the animation ends
+        setTimeout(() => sparkle.remove(), 1000); // Match the duration of the `sparkle-animation`
+    }, interval); // Repeat every 2 seconds
 }
 
 // Create 20 slots in each container
@@ -506,6 +518,9 @@ createSlots(containerFront, 20);
 
 updateImages(containerBehind, QBrasMecaniqueBehind, RobotArmImage);
 updateImages(containerFront, QBrasMecaniqueFront, RobotArmImage);
+// ------------------------------ Fonction de gestion de l'animation du convoyer END ------------------------------
+
+
 
 //------------------------------ Terminal Function //------------------------------
 

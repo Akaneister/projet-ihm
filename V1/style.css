@@ -284,6 +284,7 @@ button {
 }
 
 .placement {
+    position: relative;
     width: 50px; /* Width of the placement slots */
     height: 50px; /* Height of the placement slots */
     background-color: transparent; /* Invisible slots */

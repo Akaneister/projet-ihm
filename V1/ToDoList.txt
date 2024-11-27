@@ -1,5 +1,4 @@
 ---------------------------------------------- DESIGN ----------------------------------------------
-- Effet d'étincelle quand on clique sur construire.        
 - Faire des images IA pour les bonus ou des étapes.
 - Faire des succès.
 
@@ -9,8 +8,11 @@
 ---------------------------------------------- BUGS ----------------------------------------------
 
 ---------------------------------------------- TO DO ----------------------------------------------
+- Gerer le flux d'objet sur le convoyeur (en gros plus on a de bras et plus on a de flux #progression)
+Mais la le flux est mit à jour seulement apres refresh de la page et quand on clique on ralenti le flux si celui-ci
+dépasse le 500ms de délai donc pas ouf.
+
 - Faire que le matrix effect ne ce lance que après l'achat du bonus click
-- Faire que des bras ce rajoute sur le convoyer quand on en achete
 - Séparer le code avec des commentaires pour plus de visibilité
 - Faire tout les commentaires en francais
 
@@ -21,4 +23,3 @@ git checkout nom_de_branche   : Permet de se deplacer entre les branches
 git merge nom_de_branche :Permet d'ajouter la branche " nom_de_branche" a la branche actuellemnt   !!! Bien etre dans le master !!
 
 git push origin :    pour push au bonne endroit 
-
