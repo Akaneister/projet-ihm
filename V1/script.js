@@ -119,8 +119,6 @@ function createSparkles(event) {
         sparkle.style.left = `${offsetX - containerX}px`;
         sparkle.style.top = `${offsetY - containerY}px`;
 
-        console.log(`Étincelle créée à (${offsetX - containerX}, ${offsetY - containerY})`);
-
         // Ajouter l'étincelle au conteneur
         sparklesContainer.appendChild(sparkle);
 
@@ -161,7 +159,7 @@ function incrementEnergie() {
         document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
         
         // mets à jour l'affichage de la barre d'energie
-        mettreAJourAffichage();
+        genererBarreEnergie();
     }
 }
 
@@ -189,13 +187,16 @@ function incrementBonusRobotArm() {
             QBrasMecaniqueBehind += 1;
             localStorage.setItem('QBrasMecaniqueBehind', QBrasMecaniqueBehind);
             updateImages(containerBehind, QBrasMecaniqueBehind, RobotArmImage);
+            localStorage.setItem('MaxBonusRobotArm', MaxBonusRobotArm);
         } else {   
             QBrasMecaniqueFront += 1;
             localStorage.setItem('QBrasMecaniqueFront', QBrasMecaniqueFront);
             updateImages(containerFront, QBrasMecaniqueFront, RobotArmImage);
+            localStorage.setItem('MaxBonusRobotArm', MaxBonusRobotArm);
         }
 
-        mettreAJourAffichage();
+        animationActivation();
+        genererBarreEnergie();
     }
 }
 
@@ -223,7 +224,7 @@ function increaseClick() {
         localStorage.setItem('consommationEnergieActuel', consommationEnergieActuel);
         document.getElementById('consommationEnergieActuel').innerHTML = consommationEnergieActuel;
 
-        mettreAJourAffichage();
+        genererBarreEnergie();
     }
 }
 
@@ -249,9 +250,9 @@ function incrementBonusUsine() {
 
         MaxBonusRobotArm = 40 + (40 * QBonusUsine);
         localStorage.setItem('MaxBonusRobotArm', MaxBonusRobotArm); 
-        document.getElementById('MaxBonusRobotArm').innerHTML = MaxBonusRobotArm;
+//        document.getElementById('MaxBonusRobotArm').innerHTML = MaxBonusRobotArm;
 
-        mettreAJourAffichage();
+        genererBarreEnergie();
     }
 }
 // ---------------------------------------------- Fonction d'amelioration END ----------------------------------------------
@@ -308,7 +309,8 @@ function resetVariables() {
     updateImages(containerBehind, QBrasMecaniqueBehind, RobotArmImage);
     updateImages(containerFront, QBrasMecaniqueFront, RobotArmImage);
 
-    mettreAJourAffichage();    
+    animationActivation();
+    genererBarreEnergie();
 }
 // ---------------------------------------------- Reset Variables END ----------------------------------------------
 
@@ -370,7 +372,8 @@ function createMovingSquare() {
 
 
 
-// ----------------------------- Activation des bonus toutes les 0.5s -----------------------------
+// ----------------------------- Fonction avec auto-appel -----------------------------
+// Fonction d'incrementation du compteur de robot et du compteur general
 function activateBonus() {
     if (QBonusRobotArm > 0) {
         robots += QBonusRobotArm * 2;
@@ -385,21 +388,27 @@ function activateBonus() {
     }
 }
 
-function activateAnimation() {
-    if (QBonusRobotArm > 0 && canCreateCube) {
-        createMovingSquare();
-    }
-}
-
+// Fonction d'activation de l'animation des objets sur le convoyeur
 function bonusActivation() {
     setInterval(activateBonus, 500);
-    if (canCreateCube) {
-        setInterval(activateAnimation, Math.max(200, 5000 - (150*QBonusRobotArm)));
+}
+
+let intervalId = null;
+
+function animationActivation() {
+    if (intervalId) {
+        clearInterval(intervalId); // Clear any existing interval
+    }
+
+    if (QBonusRobotArm > 0) {
+        const intervalTime = Math.max(200, 5000 - (150 * QBonusRobotArm));
+        intervalId = setInterval(createMovingSquare, intervalTime);
     }
 }
 
 bonusActivation();
-// ----------------------------- Activation des bonus toutes les 0.5s END -----------------------------
+animationActivation();
+// ----------------------------- Fonction avec auto-appel END -----------------------------
 
 
 
@@ -407,28 +416,16 @@ bonusActivation();
 // Génération de la barre d'énergie
 function genererBarreEnergie() {
     const barreEnergie = document.getElementById('barreEnergie');
-    barreEnergie.innerHTML = ''; // Clear the existing segments
+    barreEnergie.innerHTML = '';
 
+    // Pour la quantité d'energie actuel, un nombre de div est créé
     for (let i = 1; i <= energieActuel; i++) {
-        let segment = document.createElement('div'); // Declare segment inside the loop
+        // Création des div et ajout au segment
+        let segment = document.createElement('div');
         segment.classList.add('segment');
+        // Si 'i' est inférieur a la consommation actuel d'energie, alors passe le div en orange
         if (i <= consommationEnergieActuel) {
-            segment.classList.add('consumed'); // Mark consumed segments
-        }
-        barreEnergie.appendChild(segment);
-    }
-}
-
-// Mise à jour de l'affichage
-function mettreAJourAffichage() {
-    const barreEnergie = document.getElementById('barreEnergie');
-    barreEnergie.innerHTML = ''; // Clear the existing segments
-
-    for (let i = 1; i <= energieActuel; i++) {
-        let segment = document.createElement('div'); // Declare segment inside the loop
-        segment.classList.add('segment');
-        if (i <= consommationEnergieActuel) {
-            segment.classList.add('consumed'); // Mark consumed segments
+            segment.classList.add('consumed');
         }
         barreEnergie.appendChild(segment);
     }
@@ -471,7 +468,7 @@ function createSlots(container, totalSlots) {
                 slot.appendChild(sparkleContainer);
 
                 // Start sparkle animation
-                startSparkles(img, sparkleContainer);
+                startSparkles(sparkleContainer);
             }
         } else {
             // Ensure slots beyond filledCount do not have images
@@ -488,7 +485,7 @@ function createSlots(container, totalSlots) {
 }
 
 // Function to generate sparkles on an image
-function startSparkles(image, sparkleContainer) {
+function startSparkles(sparkleContainer) {
 
     const interval = Math.floor(Math.random() * 5000) + 2000;
 
@@ -522,8 +519,8 @@ updateImages(containerFront, QBrasMecaniqueFront, RobotArmImage);
 
 
 
-//------------------------------ Terminal Function //------------------------------
-
+//------------------------------ Terminal Function ------------------------------
 function getCompteurTotal() {
     return compteurGeneral;
 }
+//------------------------------ Terminal Function END ------------------------------

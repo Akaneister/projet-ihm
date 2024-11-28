@@ -1,17 +1,16 @@
 ---------------------------------------------- DESIGN ----------------------------------------------
 - Faire des images IA pour les bonus ou des étapes.
 - Faire des succès.
+- Afficher le nombre de robots par seconde.
 
 ---------------------------------------------- SOUND ----------------------------------------------
 - Son de metal / marteau quand on clique.
 
 ---------------------------------------------- BUGS ----------------------------------------------
-
----------------------------------------------- TO DO ----------------------------------------------
 - Gerer le flux d'objet sur le convoyeur (en gros plus on a de bras et plus on a de flux #progression)
 Mais la le flux est mit à jour seulement apres refresh de la page et quand on clique on ralenti le flux si celui-ci
 dépasse le 500ms de délai donc pas ouf.
-
+---------------------------------------------- TO DO ----------------------------------------------
 - Faire que le matrix effect ne ce lance que après l'achat du bonus click
 - Séparer le code avec des commentaires pour plus de visibilité
 - Faire tout les commentaires en francais
