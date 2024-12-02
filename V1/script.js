@@ -149,12 +149,12 @@ function incrementEnergie() {
         document.getElementById('QBonusEnergie').innerHTML = QBonusEnergie;
        
         // mets à jour la valeur actuel de notre energie et la sauvegarde
-        energieActuel += 100 + (energieActuel/10);
+        energieActuel += Math.floor(100 + (energieActuel / 10));
         localStorage.setItem('energieActuel', energieActuel);
         document.getElementById('energieActuel').innerHTML = energieActuel;
        
         // mets à jour le cout du prochain bonus et le sauvegarde
-        bonusEnergieCost *= 1.5;
+        bonusEnergieCost = Math.floor(bonusEnergieCost * 1.5);
         localStorage.setItem('bonusEnergieCost', bonusEnergieCost);
         document.getElementById('bonusEnergieCost').innerHTML = bonusEnergieCost;
         
@@ -261,7 +261,7 @@ function incrementBonusUsine() {
 
 // ---------------------------------------------- Reset Variables ----------------------------------------------
 function resetVariables() {
-    robots = 160000;
+    robots = 16000000;
     bonusRobotArmCost = 100;
     QBonusRobotArm = 0;
     clickIncreaseCost = 5000;
